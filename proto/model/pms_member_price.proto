@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+// MemberPrice 商品会员价格表
+// 根据不同会员等级，可以以不同的会员价格购买。此处设计有缺陷，可以做成不同会员等级可以减免多少元或者按多少折扣进行购买。
+message MemberPrice {
+  uint64 id = 1; // 主键
+  uint64 product_id = 2; // 商品id
+  uint64 member_level_id = 3; // 会员等级id
+  string member_price = 4; // 会员价格
+  string member_level_name = 5; // 会员等级名称
+}

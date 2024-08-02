@@ -1,0 +1,303 @@
+syntax = "proto3";
+package admin;
+option go_package = ".;mall";
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+import "admin/admin.proto";
+import "model/oms_order_return_reason.proto";
+import "model/oms_order.proto";
+import "model/oms_order_return_apply.proto";
+import "model/oms_company_address.proto";
+
+// START ======================================= 退货原因 ======================================= START
+// 添加或更新退货原因参数
+message AddOrUpdateOrderReturnReasonParam {
+  uint64 id = 1; // 主键
+  string name = 2 [(validate.rules).string.min_len = 1]; // 退货类型
+  uint32 sort = 3 [(validate.rules).uint32.gte = 0]; // 排序
+  uint32 status = 4; // 状态：0->不启用；1->启用
+  uint32 create_time = 5; // 添加时间
+}
+
+// 分页查询退货原因
+message GetOrderReturnReasonsParam {
+  google.protobuf.UInt64Value id = 1; // 主键
+
+  uint32 page_num = 10 [(validate.rules).uint32.gte = 0];   // 页面大小
+  uint32 page_size = 11 [(validate.rules).uint32.gte = 0];  // 页码
+}
+
+// 分页查询退货原因
+message OrderReturnReasonsData {
+  repeated model.OrderReturnReason data = 1;    // 退货原因
+  uint32 page_total = 2;                         // 数据总数
+  uint32 page_size = 3;                          // 页码
+  uint32 page_num = 4;                           // 页面大小
+}
+message GetOrderReturnReasonsRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  OrderReturnReasonsData data = 3; //
+}
+
+// 根据id获取退货原因
+message GetOrderReturnReasonReq {
+  uint64 id = 1;
+}
+
+// 根据id获取退货原因
+message GetOrderReturnReasonRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  model.OrderReturnReason data = 3;    // 数据
+}
+
+// 删除退货原因
+message DeleteOrderReturnReasonReq {
+  uint64 id = 1;
+}
+
+// START ======================================= 订单 ======================================= START
+// 分页查询订单
+message GetOrdersParam {
+  google.protobuf.UInt64Value id = 1; // 主键
+
+  uint32 page_num = 10 [(validate.rules).uint32.gte = 0];   // 页面大小
+  uint32 page_size = 11 [(validate.rules).uint32.gte = 0];  // 页码
+}
+
+// 分页查询订单
+message OrdersData {
+  repeated model.Order data = 1;    // 订单
+  uint32 page_total = 2;                         // 数据总数
+  uint32 page_size = 3;                          // 页码
+  uint32 page_num = 4;                           // 页面大小
+}
+message GetOrdersRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  OrdersData data = 3; //
+}
+
+// 根据id获取订单
+message GetOrderReq {
+  uint64 id = 1;
+}
+
+// 根据id获取订单
+message GetOrderRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  model.Order data = 3;    // 数据
+}
+
+// 删除订单
+message DeleteOrderReq {
+  uint64 id = 1;
+}
+
+// START ======================================= 订单退货 ======================================= START
+
+// 分页查询订单退货申请
+message GetOrderReturnAppliesParam {
+  google.protobuf.UInt64Value id = 1; // 主键
+  google.protobuf.UInt32Value status = 2; // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+
+  uint32 page_num = 10 [(validate.rules).uint32.gte = 0];   // 页面大小
+  uint32 page_size = 11 [(validate.rules).uint32.gte = 0];  // 页码
+}
+
+// 分页查询订单退货申请
+message OrderReturnAppliesData {
+  repeated model.OrderReturnApply data = 1;    // 订单退货申请
+  uint32 page_total = 2;                         // 数据总数
+  uint32 page_size = 3;                          // 页码
+  uint32 page_num = 4;                           // 页面大小
+}
+message GetOrderReturnAppliesRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  OrderReturnAppliesData data = 3; //
+}
+
+// 根据id获取订单退货申请
+message GetOrderReturnApplyReq {
+  uint64 id = 1;
+}
+
+// 根据id获取订单退货申请
+message GetOrderReturnApplyRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  model.OrderReturnApply data = 3;    // 数据
+}
+
+// START ======================================= 公司收发货地址 ======================================= START
+// 添加或更新公司收发货地址参数
+message AddOrUpdateCompanyAddressParam {
+  uint64 id = 1; // 主键
+}
+
+// 分页查询公司收发货地址
+message GetCompanyAddressesParam {
+
+  uint32 page_num = 10 [(validate.rules).uint32.gte = 0];   // 页面大小
+  uint32 page_size = 11 [(validate.rules).uint32.gte = 0];  // 页码
+}
+
+// 分页查询公司收发货地址
+message CompanyAddressesData {
+  repeated model.CompanyAddress data = 1;    // 公司收发货地址
+  uint32 page_total = 2;                         // 数据总数
+  uint32 page_size = 3;                          // 页码
+  uint32 page_num = 4;                           // 页面大小
+}
+message GetCompanyAddressesRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  CompanyAddressesData data = 3; //
+}
+
+// 根据id获取公司收发货地址
+message GetCompanyAddressReq {
+  uint64 id = 1;
+}
+
+// 根据id获取公司收发货地址
+message GetCompanyAddressRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  model.CompanyAddress data = 3;    // 数据
+}
+
+// 删除公司收发货地址
+message DeleteCompanyAddressReq {
+  uint64 id = 1;
+}
+
+// oms
+service OmsAdminApi {
+  // START ======================================= 退货原因 ======================================= START
+  // 添加退货原因
+  rpc CreateOrderReturnReason (AddOrUpdateOrderReturnReasonParam) returns (CommonRsp) {
+    option (google.api.http) = {
+      post: "/orderReturnReasons"
+      body: "*"
+    };
+  }
+
+  // 修改退货原因
+  rpc UpdateOrderReturnReason (AddOrUpdateOrderReturnReasonParam) returns (CommonRsp) {
+    option (google.api.http) = {
+      put: "/orderReturnReasons/{id}"
+      body: "*"
+    };
+  }
+
+  // 分页查询退货原因
+  rpc GetOrderReturnReasons (GetOrderReturnReasonsParam) returns (GetOrderReturnReasonsRsp) {
+    option (google.api.http) = {
+      get: "/orderReturnReasons"
+    };
+  }
+
+  // 根据id获取退货原因
+  rpc GetOrderReturnReason (GetOrderReturnReasonReq) returns (GetOrderReturnReasonRsp) {
+    option (google.api.http) = {
+      get: "/orderReturnReasons/{id}"
+    };
+  }
+
+  // 删除退货原因
+  rpc DeleteOrderReturnReason (DeleteOrderReturnReasonReq) returns (CommonRsp) {
+    option (google.api.http) = {
+      delete: "/orderReturnReasons/{id}"
+    };
+  }
+
+  // START ======================================= 订单 ======================================= START
+  // 分页查询订单
+  rpc GetOrders (GetOrdersParam) returns (GetOrdersRsp) {
+    option (google.api.http) = {
+      get: "/orders"
+    };
+  }
+
+  // 根据id获取订单
+  rpc GetOrder (GetOrderReq) returns (GetOrderRsp) {
+    option (google.api.http) = {
+      get: "/orders/{id}"
+    };
+  }
+
+  // 删除订单
+  rpc DeleteOrder (DeleteOrderReq) returns (CommonRsp) {
+    option (google.api.http) = {
+      delete: "/orders/{id}"
+    };
+  }
+
+  // START ======================================= 订单退货 ======================================= START
+  // 分页查询订单退货申请
+  rpc GetOrderReturnApplies (GetOrderReturnAppliesParam) returns (GetOrderReturnAppliesRsp) {
+    option (google.api.http) = {
+      get: "/orderReturnApplies"
+    };
+  }
+
+  // 根据id获取订单退货申请
+  rpc GetOrderReturnApply (GetOrderReturnApplyReq) returns (GetOrderReturnApplyRsp) {
+    option (google.api.http) = {
+      get: "/orderReturnApplies/{id}"
+    };
+  }
+
+  // START ======================================= 公司收发货地址 ======================================= START
+  // 添加公司收发货地址
+  rpc CreateCompanyAddress (AddOrUpdateCompanyAddressParam) returns (CommonRsp) {
+    option (google.api.http) = {
+      post: "/companyAddresses"
+      body: "*"
+    };
+  }
+
+  // 修改公司收发货地址
+  rpc UpdateCompanyAddress (AddOrUpdateCompanyAddressParam) returns (CommonRsp) {
+    option (google.api.http) = {
+      put: "/companyAddresses/{id}"
+      body: "*"
+    };
+  }
+
+  // 分页查询公司收发货地址
+  rpc GetCompanyAddresses (GetCompanyAddressesParam) returns (GetCompanyAddressesRsp) {
+    option (google.api.http) = {
+      get: "/companyAddresses"
+    };
+  }
+
+  // 根据id获取公司收发货地址
+  rpc GetCompanyAddress (GetCompanyAddressReq) returns (GetCompanyAddressRsp) {
+    option (google.api.http) = {
+      get: "/companyAddresses/{id}"
+    };
+  }
+
+  // 删除公司收发货地址
+  rpc DeleteCompanyAddress (DeleteCompanyAddressReq) returns (CommonRsp) {
+    option (google.api.http) = {
+      delete: "/companyAddresses/{id}"
+    };
+  }
+}

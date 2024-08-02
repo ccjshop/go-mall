@@ -1,0 +1,13 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// PrefrenceArea 优选专区
+message PrefrenceArea {
+  uint64 id = 1; // 主键
+  string name = 2; // 名称
+  string sub_title = 3; // 子标题
+  string pic = 4; // 展示图片
+  uint32 sort = 5; // 排序
+  uint32 show_status = 6; // 显示状态
+}

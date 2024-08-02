@@ -1,0 +1,13 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// ProductAttributeValue 商品属性值表
+// 如果对应的参数是规格且规格支持手动添加，那么该表用于存储手动新增的值；
+// 如果对应的商品属性是参数，那么该表用于存储参数的值。
+message ProductAttributeValue {
+  uint64 id = 1; // 主键ID
+  uint64 product_id = 2; // 商品ID
+  uint64 product_attribute_id = 3; // 商品属性ID
+  string value = 4; // 手动添加规格或参数的值，参数单值，规格有多个时以逗号隔开
+}

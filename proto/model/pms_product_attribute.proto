@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+// 商品属性
+message ProductAttribute {
+  uint64 id = 1;                              // 编号
+  uint32 type = 2;                            // 属性的类型；0->规格；1->参数
+  uint64 product_attribute_category_id = 3;   // 产品属性分类表ID
+  string name = 4;                            // 属性名称
+  uint32 sort = 8;                            // 排序字段
+  //
+  uint32 select_type = 5;                     // 属性选择类型：0->唯一；1->单选；2->多选
+  uint32 input_type = 6;                      // 属性录入方式：0->手工录入；1->从列表中选取
+  string input_list = 7;                      // 可选值列表，以逗号隔开
+  //
+  uint32 filter_type = 9;                     // 分类筛选样式：1->普通；1->颜色
+  uint32 search_type = 10;                    // 检索类型；0->不需要进行检索；1->关键字检索；2->范围检索
+  //
+  uint32 related_status = 11;                 // 相同属性产品是否关联；0->不关联；1->关联
+  uint32 hand_add_status = 12;                // 是否支持手动新增；0->不支持；1->支持
+}

@@ -1,0 +1,229 @@
+syntax = "proto3";
+package admin;
+option go_package = ".;mall";
+
+import "portal/portal.proto";
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+import "portal/cart_item.proto";
+import "portal/coupon.proto";
+
+
+// 根据购物车信息生成确认单
+message GenerateConfirmOrderReq {
+  repeated uint64 cart_ids = 1 [(validate.rules).repeated.min_items = 1]; // 购物车id集合
+}
+
+message GenerateConfirmOrderRsp {
+  // 计算的金额
+  message CalcAmount {
+    string total_amount = 1; // 订单商品总金额
+    string freight_amount = 2; // 运费
+    string promotion_amount = 3; // 活动优惠
+    string pay_amount = 4; // 应付金额
+  }
+
+  // 积分使用规则
+  message IntegrationConsumeSetting {
+    uint32 deduction_per_amount = 2; // 每一元需要抵扣的积分数量
+    uint32 max_percent_per_order = 3; // 每笔订单最高抵用百分比
+    uint32 use_unit = 4; // 每次使用积分最小单位100
+    uint32 coupon_status = 5; // 是否可以和优惠券同用；0->不可以；1->可以
+  }
+
+  // 用户收货地址列表
+  message MemberReceiveAddress {
+    uint64 id = 1; // ID
+    uint64 member_id = 2; // 会员ID
+    string name = 3; // 收货人名称
+    string phone_number = 4; // 电话号码
+    uint32 default_status = 5; // 是否为默认
+    string post_code = 6; // 邮政编码
+    string province = 7; // 省份/直辖市
+    string city = 8; // 城市
+    string region = 9; // 区
+    string detail_address = 10; // 详细地址(街道)
+  }
+
+
+  repeated CartPromotionItem cart_promotion_items = 1; // 包含优惠信息的购物车信息
+  repeated MemberReceiveAddress member_receive_addresses = 2; // 用户收货地址列表
+  repeated CouponHistoryDetail coupon_history_details = 3; // 用户可用优惠券列表
+  IntegrationConsumeSetting integration_consume_setting = 4; // 积分使用规则
+  uint32 member_integration = 5; // 会员持有的积分
+  CalcAmount calc_amount = 6; // 计算的金额
+}
+
+// 根据购物车信息生成订单
+message GenerateOrderReq {
+  uint64 member_receive_address_id = 1 [(validate.rules).uint64.gte = 0]; // 收货地址ID
+  uint64 coupon_id = 2 [(validate.rules).uint64.gte = 0]; // 优惠券ID
+  uint32 use_integration = 3 [(validate.rules).uint32.gte = 0]; // 使用的积分数
+  uint32 pay_type = 4 [(validate.rules).uint32 = {in: [0, 1, 2]}]; // 支付方式
+  repeated uint64 cart_ids = 5 [(validate.rules).repeated.min_items = 1]; // 被选中的购物车商品ID
+}
+
+
+message GenerateOrderRsp {
+ message Order {
+   uint64 id = 1; // 订单id
+ }
+ message OrderItems {
+
+ }
+ Order order = 1;
+ OrderItems order_items = 2;
+}
+
+// 用户支付成功的回调
+message PaySuccessReq {
+
+}
+message PaySuccessRsp {
+
+}
+
+// 自动取消超时订单
+message CancelTimeOutOrderReq {
+
+}
+message CancelTimeOutOrderRsp {
+
+}
+
+// 取消单个超时订单
+message CancelOrderReq {
+
+}
+
+message CancelOrderRsp {
+
+}
+
+// 按状态分页获取用户订单列表
+message OrderListReq {
+
+}
+
+message OrderListRsp {
+
+}
+
+// 根据ID获取订单详情
+message OrderDetailReq {
+  uint64 orderId = 1;
+}
+message OrderDetailRsp {
+
+}
+
+// 用户取消订单
+message CancelUserOrderReq {
+
+}
+message CancelUserOrderRsp {
+
+}
+
+// 用户确认收货
+message ConfirmReceiveOrderReq {
+
+}
+message ConfirmReceiveOrderRsp {
+
+}
+
+// 用户删除订单
+message PortalDeleteOrderReq {
+
+}
+
+message PortalDeleteOrderRsp {
+
+}
+
+// 订单管理
+service PortalOrderApi {
+  // 根据购物车信息生成确认单
+  rpc GenerateConfirmOrder(GenerateConfirmOrderReq) returns (GenerateConfirmOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/generateConfirmOrder"
+      body: "*"
+    };
+  }
+
+  // 根据购物车信息生成订单
+  rpc GenerateOrder(GenerateOrderReq) returns (GenerateOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/generateOrder"
+      body: "*"
+    };
+  }
+
+  // 用户支付成功的回调
+  rpc PaySuccess(PaySuccessReq) returns (PaySuccessRsp) {
+    option (google.api.http) = {
+      post: "/order/paySuccess"
+      body: "*"
+    };
+  }
+
+  // 自动取消超时订单
+  rpc CancelTimeOutOrder(CancelTimeOutOrderReq) returns (CancelTimeOutOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/cancelTimeOutOrder"
+      body: "*"
+    };
+  }
+
+  // 取消单个超时订单
+  rpc CancelOrder(CancelOrderReq) returns (CancelOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/cancelOrder"
+      body: "*"
+    };
+  }
+
+  // 按状态分页获取用户订单列表
+  rpc OrderList(OrderListReq) returns (OrderListRsp) {
+    option (google.api.http) = {
+      get: "/order/list"
+    };
+  }
+
+  // 根据ID获取订单详情
+  rpc OrderDetail(OrderDetailReq) returns (OrderDetailRsp) {
+    option (google.api.http) = {
+      get: "/order/detail/{orderId}"
+    };
+  }
+
+  // 用户取消订单
+  rpc CancelUserOrder(CancelUserOrderReq) returns (CancelUserOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/cancelUserOrder"
+      body: "*"
+    };
+  }
+
+  // 用户确认收货
+  rpc ConfirmReceiveOrder(ConfirmReceiveOrderReq) returns (ConfirmReceiveOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/confirmReceiveOrder"
+      body: "*"
+    };
+  }
+
+  // 用户删除订单
+  rpc DeleteOrder(PortalDeleteOrderReq) returns (PortalDeleteOrderRsp) {
+    option (google.api.http) = {
+      post: "/order/deleteOrder"
+      body: "*"
+    };
+  }
+
+
+}

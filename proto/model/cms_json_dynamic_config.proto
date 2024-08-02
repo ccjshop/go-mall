@@ -1,0 +1,12 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// JsonDynamicConfig 动态配置
+message JsonDynamicConfig {
+  uint64 id = 1; // 主键
+  string biz_type = 2; // 业务类型
+  string biz_desc = 3; // 业务描述
+  string content = 4; // 内容
+  string json_schema = 5; // json内容约束
+}

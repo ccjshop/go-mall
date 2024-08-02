@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+
+// 商品分类和属性的关系表，用于设置分类筛选条件（只支持一级分类）
+message ProductCategoryAttributeRelation {
+  int64 id = 1;                   //
+  int64 product_category_id = 2;  // pms_product_category#id
+  int64 product_attribute_id = 3; //
+}

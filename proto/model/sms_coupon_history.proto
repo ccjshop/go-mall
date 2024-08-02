@@ -1,0 +1,22 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// 优惠券使用历史
+// 会员领取及使用优惠券的记录，当会员领取到优惠券时，会产生一条优惠券的记录，需要注意的是它的使用状态：0->未使用；1->已使用；2->已过期。
+message CouponHistory {
+  uint64 id = 1; // 主键，自增
+  uint64 member_id = 2; // 会员id
+  uint64 coupon_id = 3; // 优惠券id
+  string coupon_code = 4; // 优惠券码
+  uint64 order_id = 5; // 订单id
+  string order_sn = 6; // 订单号码
+  uint32 get_type = 7; // 获取类型：0->后台赠送；1->主动获取
+  // 状态
+  uint32 use_status = 8; // 使用状态：0->未使用；1->已使用；2->已过期
+  // 时间
+  uint32 create_time = 9; // 创建时间
+  uint32 use_time = 10; // 使用时间
+  // 冗余字段
+  string member_nickname = 11; // 领取人昵称
+}

@@ -1,0 +1,67 @@
+syntax = "proto3";
+package admin;
+option go_package = ".;mall";
+
+import "portal/portal.proto";
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+
+// 首页内容信息展示
+message HomeContentReq {
+
+}
+
+message HomeContentRsp {
+  message HomeAdvertise {
+    string pic = 3; // 图片地址
+    string url = 4; // 链接地址
+  }
+  repeated HomeAdvertise advertises = 1; // 轮播广告
+  // 推荐品牌
+  // 当前秒杀场次
+  // 新品推荐
+  // 人气推荐
+  // 推荐专题
+}
+
+// 商品分类
+message ProductCategoryItem {
+  uint64 id = 1;              //
+  uint64 parent_id = 2;       // 上级分类的编号：0表示一级分类
+  string name = 3;            // 名称
+  string icon = 10;           // 图标
+}
+
+// 获取首页商品分类
+message ProductCategoryListReq {
+  uint64 parentId = 1 [(validate.rules).uint64.gte = 0];  // 上级分类的编号：0表示一级分类
+}
+
+message ProductCategoryListRsp {
+  uint32 code = 1;      // 状态码
+  string message = 2;   // 提示信息
+
+  repeated ProductCategoryItem data = 3; // 商品分类
+}
+
+// 客户端接口
+service PortalHomeApi {
+  // 首页内容信息展示
+  rpc HomeContent (HomeContentReq) returns (HomeContentRsp) {
+    option (google.api.http) = {
+      get: "/home/content"
+    };
+  }
+
+  // 获取首页商品分类
+  rpc ProductCategoryList (ProductCategoryListReq) returns (ProductCategoryListRsp) {
+    option (google.api.http) = {
+      get: "/home/productCateList/{parentId}"
+    };
+  }
+
+
+}

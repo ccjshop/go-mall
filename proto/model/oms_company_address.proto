@@ -1,0 +1,17 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// 公司收发货地址
+message CompanyAddress {
+  uint64 id = 1; // 主键
+  string address_name = 2; // 地址名称
+  uint32 send_status = 3; // 默认发货地址：0->否；1->是
+  uint32 receive_status = 4; // 是否默认收货地址：0->否；1->是
+  string name = 5; // 收发货人姓名
+  string phone = 6; // 收货人电话
+  string province = 7; // 省/直辖市
+  string city = 8; // 市
+  string region = 9; // 区
+  string detail_address = 10; // 详细地址
+}

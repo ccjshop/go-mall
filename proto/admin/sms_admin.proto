@@ -1,0 +1,111 @@
+syntax = "proto3";
+package admin;
+option go_package = ".;mall";
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+import "admin/admin.proto";
+import "model/sms_home_advertise.proto";
+
+
+// 添加或更新首页轮播广告表参数
+message AddOrUpdateHomeAdvertiseParam {
+  uint64 id = 1; // 主键
+  string name = 2; // 名称
+  string pic = 3; // 图片地址
+  string url = 4; // 链接地址
+  uint32 sort = 5; // 排序
+  string note = 6; // 备注
+  // 类型
+  uint32 type = 7; // 轮播位置：0->PC首页轮播；1->app首页轮播，注意：在proto中使用uint32代替uint8
+  // 时间
+  uint32 startTime = 8; // 开始时间
+  uint32 endTime = 9; // 结束时间
+  // 状态
+  uint32 status = 10; // 上下线状态：0->下线；1->上线，注意：在proto中使用uint32代替uint8
+  // 统计
+  uint32 clickCount = 11; // 点击数
+  uint32 orderCount = 12; // 下单数
+}
+
+// 分页查询首页轮播广告表
+message GetHomeAdvertisesParam {
+
+  uint32 page_num = 10 [(validate.rules).uint32.gte = 0];   // 页面大小
+  uint32 page_size = 11 [(validate.rules).uint32.gte = 0];  // 页码
+}
+
+// 分页查询首页轮播广告表
+message HomeAdvertisesData {
+  repeated model.HomeAdvertise data = 1;    // 首页轮播广告表
+  uint32 page_total = 2;                         // 数据总数
+  uint32 page_size = 3;                          // 页码
+  uint32 page_num = 4;                           // 页面大小
+}
+message GetHomeAdvertisesRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  HomeAdvertisesData data = 3; //
+}
+
+// 根据id获取首页轮播广告表
+message GetHomeAdvertiseReq {
+  uint64 id = 1;
+}
+
+// 根据id获取首页轮播广告表
+message GetHomeAdvertiseRsp {
+  uint32 code = 1;          // 状态码
+  string message = 2;       // 提示信息
+
+  model.HomeAdvertise data = 3;    // 数据
+}
+
+// 删除首页轮播广告表
+message DeleteHomeAdvertiseReq {
+  uint64 id = 1;
+}
+
+service SmsAdminApi {
+  // 添加首页轮播广告表
+  rpc CreateHomeAdvertise (AddOrUpdateHomeAdvertiseParam) returns (CommonRsp) {
+    option (google.api.http) = {
+      post: "/homeAdvertises"
+      body: "*"
+    };
+  }
+
+  // 修改首页轮播广告表
+  rpc UpdateHomeAdvertise (AddOrUpdateHomeAdvertiseParam) returns (CommonRsp) {
+    option (google.api.http) = {
+      put: "/homeAdvertises/{id}"
+      body: "*"
+    };
+  }
+
+  // 分页查询首页轮播广告表
+  rpc GetHomeAdvertises (GetHomeAdvertisesParam) returns (GetHomeAdvertisesRsp) {
+    option (google.api.http) = {
+      get: "/homeAdvertises"
+    };
+  }
+
+  // 根据id获取首页轮播广告表
+  rpc GetHomeAdvertise (GetHomeAdvertiseReq) returns (GetHomeAdvertiseRsp) {
+    option (google.api.http) = {
+      get: "/homeAdvertises/{id}"
+    };
+  }
+
+  // 删除首页轮播广告表
+  rpc DeleteHomeAdvertise (DeleteHomeAdvertiseReq) returns (CommonRsp) {
+    option (google.api.http) = {
+      delete: "/homeAdvertises/{id}"
+    };
+  }
+
+
+}

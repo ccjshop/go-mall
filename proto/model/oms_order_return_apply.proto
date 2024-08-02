@@ -1,0 +1,44 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+import "model/oms_company_address.proto";
+
+// 订单退货申请
+message OrderReturnApply {
+  uint64 id = 1; // 主键
+  uint64 order_id = 2; // 订单id
+  // 商品信息
+  string product_pic = 3; // 商品图片
+  string product_name = 4; // 商品名称
+  string product_brand = 5; // 商品品牌
+  uint64 product_id = 6; // 退货商品id
+  string product_real_price = 7; // 商品实际支付单价
+  string product_attr = 8; // 商品销售属性：颜色：红色；尺码：xl;
+  uint32 product_count = 9; // 退货数量
+  string product_price = 10; // 商品单价
+  //
+  uint32 status = 11; // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+  string order_sn = 12; // 订单编号
+  uint32 create_time = 13; // 申请时间
+  string member_username = 14; // 会员用户名
+  string return_name = 15; // 退货人姓名
+  string return_phone = 16; // 退货人电话
+  string reason = 17; // 原因
+  string description = 18; // 描述
+  repeated string proof_pics = 19; // 凭证图片，json字符串数组
+  //
+  string return_amount = 20; // 退款金额
+  uint64 company_address_id = 21; // 收货地址表id
+  // 商家-处理人
+  string handle_man = 22; // 处理人员
+  uint32 handle_time = 23; // 处理时间
+  string handle_note = 24; // 处理备注
+  // 商家-收货人
+  string receive_man = 25; // 收货人
+  uint32 receive_time = 26; // 收货时间
+  string receive_note = 27; // 收货备注
+
+  //
+  model.CompanyAddress companyAddress = 100; // 公司收货地址
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+// 商品属性分类
+message ProductAttributeCategory {
+  uint64 id = 1;              // 编号
+  string name = 2;            // 类型名称
+  uint32 attribute_count = 3; // 属性数量
+  uint32 param_count = 4;     // 参数数量
+}

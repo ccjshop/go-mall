@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+
+// Brand 商品品牌
+message Brand {
+  uint64 id = 1;                      // 主键
+  string name = 2;                    // 名称
+  string first_letter = 3;            // 首字母
+  string logo = 9;                    // 品牌logo
+  string big_pic = 10;                // 专区大图
+  string brand_story = 11;            // 品牌故事
+  uint32 sort = 4;                    // 排序
+  // status
+  uint32 factory_status = 5;          // 是否为品牌制造商：0->不是；1->是
+  uint32 show_status = 6;             // 是否显示
+  // 冗余字段
+  uint32 product_count = 7;           // 产品数量
+  uint32 product_comment_count = 8;   // 产品评论数量
+}

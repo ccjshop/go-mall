@@ -1,0 +1,29 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// OrderItem 订单商品信息。订单中包含的商品信息，一个订单中会有多个订单商品信息。
+message OrderItem {
+  uint64 id = 1; // 主键，自动递增
+  uint64 order_id = 2; // 订单id，对应 oms_order#id
+  string order_sn = 3; // 订单编号
+  // 商品信息
+  uint64 product_id = 4; // 商品id
+  string product_pic = 5; // 商品图片
+  string product_name = 6; // 商品名称
+  string product_brand = 7; // 商品品牌
+  string product_price = 8; // 销售价格
+  string product_sn = 9; // 商品条码
+  string product_attr = 10; // 商品销售属性
+  uint32 product_quantity = 11; // 购买数量
+  uint64 product_category_id = 12; // 商品分类id
+  uint64 product_sku_id = 13; // 商品sku编号
+  string product_sku_code = 14; // 商品sku条码
+  string promotion_name = 15; // 商品促销名称
+  string promotion_amount = 16; // 商品促销分解金额
+  string coupon_amount = 17; // 优惠券优惠分解金额
+  string integration_amount = 18; // 积分优惠分解金额
+  string real_amount = 19; // 该商品经过优惠后的分解金额
+  uint32 gift_integration = 20; // 商品赠送积分
+  uint32 gift_growth = 21; // 商品赠送成长值
+}

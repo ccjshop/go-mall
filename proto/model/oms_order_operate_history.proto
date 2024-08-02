@@ -1,0 +1,13 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// OrderOperateHistory 订单操作历史记录，当订单状态发生改变时，用于记录订单的操作信息。
+message OrderOperateHistory {
+  uint64 id = 1; // 主键，自动递增
+  uint64 order_id = 2; // 订单id，对应 oms_order#id
+  string operate_man = 3; // 操作人：用户；系统；后台管理员
+  uint32 order_status = 4; // 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+  string note = 5; // 备注
+  uint32 create_time = 6; // 操作时间
+}

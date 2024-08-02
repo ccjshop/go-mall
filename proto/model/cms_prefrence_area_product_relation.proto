@@ -1,0 +1,10 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// PrefrenceAreaProductRelation 优选专区和产品关系表
+message PrefrenceAreaProductRelation {
+  uint64 id = 1; // 主键
+  uint64 prefrence_area_id = 2; // 优选专区ID
+  uint64 product_id = 3; // 产品ID
+}

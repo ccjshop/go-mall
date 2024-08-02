@@ -1,0 +1,144 @@
+syntax = "proto3";
+package admin;
+option go_package = ".;mall";
+
+import "portal/portal.proto";
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+import "model/sms_coupon.proto";
+
+// 优惠券领取历史详情（包括优惠券信息和关联关系）
+message CouponHistoryDetail {
+  // 相关优惠券信息
+  message Coupon {
+    // 基本信息
+    uint64 id = 1; //
+    string name = 2; // 名称
+    string amount = 3; // 金额，保留两位小数
+    string note = 4; // 备注
+    string code = 5; // 优惠码
+
+    // 类型
+    uint32 type = 10; // 优惠卷类型；0->全场赠券；1->会员赠券；2->购物赠券；3->注册赠券
+    model.CouponUseType use_type = 11; // 使用类型：0->全场通用；1->指定分类；2->指定商品
+
+    // 使用限制
+    uint32 end_time = 18; // 结束使用时间
+  }
+  // 优惠券关联商品
+  message CouponProductRelation {
+    uint64 coupon_id = 2; // 优惠券id
+    uint64 product_id = 3; // 商品id
+    //
+    string product_name = 4; // 商品名称
+    string product_sn = 5; // 商品条码
+  }
+  // 优惠券关联商品分类
+  message CouponProductCategoryRelation {
+    uint64 coupon_id = 2; // 优惠券id
+    uint64 product_category_id = 3; // 商品分类id
+    //
+    string product_category_name = 4; // 商品分类名称
+    string parent_category_name = 5; // 父分类名称
+  }
+
+
+  // 一、CouponHistory
+  uint64 id = 1; // 主键，自增
+  uint64 member_id = 2; // 会员id
+  uint64 coupon_id = 3; // 优惠券id
+  string coupon_code = 4; // 优惠券码
+  uint64 order_id = 5; // 订单id
+  string order_sn = 6; // 订单号码
+  uint32 get_type = 7; // 获取类型：0->后台赠送；1->主动获取
+  // 状态
+  uint32 use_status = 8; // 使用状态：0->未使用；1->已使用；2->已过期
+  // 时间
+  uint32 create_time = 9; // 创建时间
+  uint32 use_time = 10; // 使用时间
+  // 冗余字段
+  string member_nickname = 11; // 领取人昵称
+
+
+  // 二、关联数据
+  Coupon coupon = 100; // 相关优惠券信息
+  repeated CouponProductRelation product_relations = 101; // 优惠券关联商品
+  repeated CouponProductCategoryRelation category_relations = 102; // 优惠券关联商品分类
+}
+
+
+
+// 领取指定优惠券
+message CouponAddReq {
+  uint64 coupon_id = 1;
+}
+message CouponAddRsp {
+
+}
+
+// 获取会员优惠券历史列表
+message CouponListHistoryReq {
+
+}
+
+message CouponListHistoryRsp {
+
+}
+
+// 获取会员优惠券列表
+message CouponListReq {}
+message CouponListRsp {}
+
+// 获取登录会员购物车的相关优惠券
+message CouponListCartReq {
+  uint32 type = 1;
+}
+message CouponListCartRsp {}
+
+// 获取当前商品相关优惠券
+message CouponListByProductReq {
+  uint64 product_id = 1;
+}
+message CouponListByProductRsp {}
+
+// 用户优惠券管理
+service PortalCouponApi {
+  // 领取指定优惠券
+  rpc CouponAdd(CouponAddReq) returns (CouponAddRsp) {
+    option (google.api.http) = {
+      post: "/member/coupon/add/{coupon_id}"
+      body: "*"
+    };
+  }
+
+  // 获取会员优惠券历史列表
+  rpc CouponListHistory(CouponListHistoryReq) returns (CouponListHistoryRsp) {
+    option (google.api.http) = {
+      get: "/member/coupon/listHistory"
+    };
+  }
+
+  // 获取会员优惠券列表
+  rpc CouponList(CouponListReq) returns (CouponListRsp) {
+    option (google.api.http) = {
+      get: "/member/coupon/list"
+    };
+  }
+
+  // 获取登录会员购物车的相关优惠券
+  rpc CouponListCart(CouponListCartReq) returns (CouponListCartRsp) {
+    option (google.api.http) = {
+      get: "/member/coupon/list/cart/{type}"
+    };
+  }
+
+  // 获取当前商品相关优惠券
+  rpc CouponListByProduct(CouponListByProductReq) returns (CouponListByProductRsp) {
+    option (google.api.http) = {
+      get: "/member/coupon/listByProduct/{product_id}"
+    };
+  }
+}

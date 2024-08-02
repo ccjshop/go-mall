@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+// 商品分类
+message ProductCategory {
+  uint64 id = 1;              //
+  uint64 parent_id = 2;       // 上级分类的编号：0表示一级分类
+  string name = 3;            // 名称
+  string icon = 10;           // 图标
+  string product_unit = 6;    // 商品单位
+  uint32 sort = 9;            // 排序
+  //
+  string description = 12;    // 描述
+  string keywords = 11;       // 关键字
+  // 状态
+  uint32 nav_status = 7;      // 是否显示在导航栏：0->不显示；1->显示
+  uint32 show_status = 8;     // 显示状态：0->不显示；1->显示
+  // 计算得出
+  uint32 level = 4;           // 分类级别：0->1级；1->2级
+  // 冗余字段
+  uint32 product_count = 5;   // 商品数量
+}

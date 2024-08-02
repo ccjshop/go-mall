@@ -1,0 +1,32 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// 定义购物车项消息
+message CartItem {
+  // 主键
+  uint64 id = 1;
+  // 用户信息
+  uint64 member_id = 2; // 会员id
+  // 商品信息
+  uint64 product_id = 3; // 商品id
+  string product_name = 4; // 商品名称
+  string product_pic = 5; // 商品主图
+  string product_sub_title = 6; // 商品副标题（卖点）
+  string product_sn = 7; // 商品货号
+  string product_brand = 8; // 商品品牌
+  uint64 product_category_id = 9; // 商品分类
+  // 商品sku
+  uint64 product_sku_id = 11; // 商品sku id
+  string product_sku_code = 12; // 商品sku条码
+  string product_attr = 10; // 商品销售属性，JSON 字符串
+  // 价格数量
+  string price = 13; // 添加到购物车的价格
+  uint32 quantity = 14; // 购买数量
+  // 状态
+  uint32 create_date = 15; // 创建时间
+  uint32 modify_date = 16; // 修改时间
+  uint32 delete_status = 17; // 是否删除
+  // 冗余字段
+  string member_nickname = 18; // 会员昵称
+}

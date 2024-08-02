@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+// ProductFullReduction 商品满减表
+// 商品优惠相关表，购买同商品满足一定金额后，可以减免一定金额。如：买满1000减100元。
+message ProductFullReduction {
+  uint64 id = 1; // 主键
+  uint64 product_id = 2; // 商品id
+  string full_price = 3; // 商品满足金额
+  string reduce_price = 4; // 商品减少金额
+}

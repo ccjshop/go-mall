@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = ".;mall";
+
+// SkuStock 商品SKU表
+// SKU（Stock Keeping Unit）是指库存量单位，SPU（Standard Product Unit）是指标准产品单位。举个例子：iphone xs是一个SPU，而iphone xs 公开版 64G 银色是一个SKU。
+message SkuStock {
+  uint64 id = 1; // 主键
+  string sku_code = 3; // sku编码
+  string pic = 7; // 展示图片
+  uint32 sale = 8; // 销量
+  string sp_data = 11; // 商品销售属性，json格式
+  uint64 product_id = 2; // 产品ID
+  // 价格
+  string price = 4; // 价格
+  string promotion_price = 9; // 单品促销价格
+  // 库存
+  uint32 stock = 5; // 库存
+  uint32 low_stock = 6; // 预警库存
+  uint32 lock_stock = 10; // 锁定库存
+}

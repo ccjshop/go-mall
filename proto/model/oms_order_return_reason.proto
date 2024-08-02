@@ -1,0 +1,12 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// 退货原因
+message OrderReturnReason {
+  uint64 id = 1; // 主键
+  string name = 2; // 退货类型
+  uint32 sort = 3; // 排序
+  uint32 status = 4; // 状态：0->不启用；1->启用
+  uint32 create_time = 5; // 添加时间
+}

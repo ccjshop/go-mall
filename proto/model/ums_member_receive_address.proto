@@ -1,0 +1,19 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// 会员收货地址
+message MemberReceiveAddress {
+  uint64 id = 1; // 地址id
+  uint64 member_id = 2; // 会员id
+  string name = 3; // 收货人名称
+  string phone_number = 4; // 电话号码
+  uint32 default_status = 5; // 是否为默认
+
+  // 地址
+  string post_code = 6; // 邮政编码
+  string province = 7; // 省份/直辖市
+  string city = 8; // 城市
+  string region = 9; // 区
+  string detail_address = 10; // 详细地址(街道)
+}

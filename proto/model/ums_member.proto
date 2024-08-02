@@ -1,0 +1,35 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// 会员
+message Member {
+  // 账号信息
+  uint64 id = 1; // 用户id
+  string username = 2; // 用户名
+  string password = 3; // 密码
+
+  // 基本信息
+  string nickname = 4; // 昵称
+  string icon = 5; // 头像
+  uint32 gender = 6; // 性别：0->未知；1->男；2->女
+  uint32 birthday = 7; // 生日，格式为YYYYMMDD
+  string personalized_signature = 8; // 个性签名
+  string phone = 9; // 手机号码
+  string city = 10; // 所在城市
+  string job = 11; // 职业
+
+  // 会员等级信息
+  uint64 member_level_id = 12; // 会员等级id
+  uint32 source_type = 13; // 用户来源
+
+  // 业务字段
+  uint32 integration = 14; // 积分
+  uint32 growth = 15; // 成长值
+  uint32 luckey_count = 16; // 剩余抽奖次数
+  uint32 history_integration = 17; // 历史积分数量
+
+  // 账号状态
+  uint32 status = 18; // 帐号启用状态:0->禁用；1->启用
+  uint32 create_time = 19; // 注册时间
+}

@@ -1,0 +1,28 @@
+
+### 添加商品分类
+POST http://127.0.0.1:8080/productCategories
+Content-Type: application/json
+
+{
+    "parentId": 0,
+    "name": "服装-T恤",
+    "productUnit": "",
+    "navStatus": 1,
+    "showStatus": 1,
+    "sort": 2,
+    "icon": "",
+    "keywords": "",
+    "description": "",
+    "attribute_ids": []
+}
+
+
+### 分页查询商品分类
+GET http://127.0.0.1:8080/productCategories?pageSize=1&pageNum=10&parentId=0
+Accept: application/json
+
+
+### 分页查询商品分类
+DELETE http://127.0.0.1:8080/productCategories/3
+Accept: application/json
+

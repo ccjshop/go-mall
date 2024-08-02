@@ -1,0 +1,25 @@
+syntax = "proto3";
+package model;
+option go_package = ".;mall";
+
+// Subject 专题
+message Subject {
+  uint64 id = 1; // 主键
+  uint64 category_id = 2; // 分类id
+  string title = 3; // 标题
+  string pic = 4; // 专题主图
+  string album_pics = 5; // 画册图片，用逗号分割
+  string description = 6; // 描述
+  string content = 7; // 内容
+  uint32 show_status = 8; // 显示状态：0->不显示；1->显示
+  uint32 recommend_status = 9; // 推荐状态
+  uint32 create_time = 10; // 创建时间
+
+  // 冗余字段
+  uint32 forward_count = 11; // 转发数
+  uint32 collect_count = 12; // 收藏数量
+  uint32 read_count = 13; // 阅读数量
+  uint32 comment_count = 14; // 评论数量
+  uint32 product_count = 15; // 关联产品数量
+  string category_name = 16; // 专题分类名称
+}

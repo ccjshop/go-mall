@@ -1,0 +1,194 @@
+syntax = "proto3";
+package admin;
+option go_package = ".;mall";
+
+import "portal/portal.proto";
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+import "model/oms_cart_item.proto";
+
+
+// 添加商品到购物车
+message CartItemAddReq {
+  // 商品信息
+  uint64 product_id = 3 [(validate.rules).uint64.gte = 0]; // 商品id
+  // 商品属性
+  string product_attr = 10; // 商品销售属性，JSON 字符串
+  // 商品sku
+  uint64 product_sku_id = 11; // 商品sku id
+  string product_sku_code = 12; // 商品sku条码
+  // 价格数量
+  uint32 quantity = 14; // 购买数量
+}
+
+message CartItemAddRsp {
+
+}
+
+// 获取当前会员的购物车列表
+message CartItemListReq {
+
+}
+
+message CartItemListRsp {
+  uint32 code = 1;      // 状态码
+  string message = 2;   // 提示信息
+
+  repeated model.CartItem data = 3;
+}
+
+
+// 获取当前会员的购物车列表,包括促销信息
+message CartItemListPromotionReq {
+
+}
+
+// 购物车中促销信息的封装
+message CartPromotionItem {
+  // 一、订单信息 CartItem
+  uint64 id = 1;
+  // 用户信息
+  uint64 member_id = 2; // 会员id
+  // 商品信息
+  uint64 product_id = 3; // 商品id
+  string product_name = 4; // 商品名称
+  string product_pic = 5; // 商品主图
+  string product_sub_title = 6; // 商品副标题（卖点）
+  string product_sn = 7; // 商品货号
+  string product_brand = 8; // 商品品牌
+  uint64 product_category_id = 9; // 商品分类
+  // 商品sku
+  uint64 product_sku_id = 11; // 商品sku id
+  string product_sku_code = 12; // 商品sku条码
+  string product_attr = 10; // 商品销售属性，JSON 字符串
+  // 价格数量
+  string price = 13; // 添加到购物车的价格
+  uint32 quantity = 14; // 购买数量
+  // 冗余字段
+  string member_nickname = 18; // 会员昵称
+
+  // 二、扩展字段
+  string promotion_message = 100; // 促销活动信息
+  string reduce_amount = 101; // 促销活动减去的金额，针对每个商品
+  uint32 real_stock = 102; // 剩余库存-锁定库存
+  uint32 integration = 103; // 购买商品赠送积分
+  uint32 growth = 104; // 购买商品赠送成长值
+}
+
+message CartItemListPromotionRsp {
+  uint32 code = 1;      // 状态码
+  string message = 2;   // 提示信息
+
+  repeated CartPromotionItem data = 3;
+}
+
+// 修改购物车中指定商品的数量
+message CartItemUpdateQuantityReq {
+  // 主键
+  uint64 id = 1;
+
+  // 价格数量
+  uint32 quantity = 14; // 购买数量
+}
+
+message CartItemUpdateQuantityRsp {
+
+}
+
+// 获取购物车中指定商品的规格,用于重选规格
+message CartItemGetCartProductReq {
+  uint64 product_id = 1; // 商品ID
+}
+
+message CartItemGetCartProductRsp {
+
+}
+
+// 修改购物车中商品的规格
+message CartItemUpdateAttrReq {
+
+}
+message CartItemUpdateAttrRsp {
+
+}
+
+// 删除购物车中的指定商品
+message CartItemDeleteReq {
+  repeated uint64 ids = 1; // 商品ID集合
+}
+
+message CartItemDeleteRsp {
+
+}
+
+// 清空当前会员的购物车
+message CartItemClearReq {}
+message CartItemClearRsp {}
+
+// 购物车管理
+service PortalCartItemApi {
+  // 添加商品到购物车
+  rpc CartItemAdd(CartItemAddReq) returns (CartItemAddRsp) {
+    option (google.api.http) = {
+      post: "/cart/add"
+      body: "*"
+    };
+  }
+
+  // 获取当前会员的购物车列表
+  rpc CartItemList(CartItemListReq) returns (CartItemListRsp) {
+    option (google.api.http) = {
+      get: "/cart/list"
+    };
+  }
+
+  // 获取当前会员的购物车列表,包括促销信息
+  rpc CartItemListPromotion(CartItemListPromotionReq) returns (CartItemListPromotionRsp) {
+    option (google.api.http) = {
+      get: "/cart/list/promotion"
+    };
+  }
+
+  // 修改购物车中指定商品的数量
+  rpc CartItemUpdateQuantity(CartItemUpdateQuantityReq) returns (CartItemUpdateQuantityRsp) {
+    option (google.api.http) = {
+      post: "/cart/update/quantity"
+      body: "*"
+    };
+  }
+
+  // 获取购物车中指定商品的规格,用于重选规格
+  rpc CartItemGetCartProduct(CartItemGetCartProductReq) returns (CartItemGetCartProductRsp) {
+    option (google.api.http) = {
+      get: "/cart/getProduct/{product_id}"
+    };
+  }
+
+  // 修改购物车中商品的规格
+  rpc CartItemUpdateAttr(CartItemUpdateAttrReq) returns (CartItemUpdateAttrRsp) {
+    option (google.api.http) = {
+      post: "/cart/update/attr"
+      body: "*"
+    };
+  }
+
+  // 删除购物车中的指定商品
+  rpc CartItemDelete(CartItemDeleteReq) returns (CartItemDeleteRsp) {
+    option (google.api.http) = {
+      post: "/cart/delete"
+      body: "*"
+    };
+  }
+
+  // 清空当前会员的购物车
+  rpc CartItemClear(CartItemClearReq) returns (CartItemClearRsp) {
+    option (google.api.http) = {
+      post: "/cart/clear"
+      body: "*"
+    };
+  }
+
+}
