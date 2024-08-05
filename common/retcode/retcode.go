@@ -8,8 +8,9 @@ import (
 )
 
 const (
-	RetSuccess       codes.Code = 200
-	RetInternalError codes.Code = 500
+	RetSuccess                  codes.Code = 200
+	RetInternalError            codes.Code = 500
+	MemberRegisterAuthCodeError codes.Code = 500
 
 	// 登录
 	NeedLogin                codes.Code = 1000

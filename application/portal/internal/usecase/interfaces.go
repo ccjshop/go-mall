@@ -118,7 +118,7 @@ type (
 	// IMemberUseCase 业务逻辑
 	IMemberUseCase interface {
 		// MemberRegister 会员注册
-		MemberRegister(ctx context.Context, req *pb.MemberRegisterReq) (*pb.EmptyRsp, error)
+		MemberRegister(ctx context.Context, req *pb.MemberRegisterReq) (*pb.MemberRegisterRsp, error)
 		// MemberLogin 会员登录
 		MemberLogin(ctx context.Context, req *pb.MemberLoginReq) (*pb.MemberLoginRsp, error)
 		// MemberInfo 获取会员信息

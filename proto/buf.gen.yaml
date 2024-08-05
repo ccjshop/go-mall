@@ -1,0 +1,8 @@
+version: v1
+plugins:
+  - plugin: go
+    out: mall
+  - plugin: go-grpc
+    out: mall
+  - plugin: buf.build/grpc-ecosystem/gateway:v2.21.0
+    out: mall

@@ -1,0 +1,12 @@
+version: v2
+modules:
+  - name: buf.build/ls-shop/mall
+lint:
+  use:
+    - DEFAULT
+breaking:
+  use:
+    - FILE
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/envoyproxy/protoc-gen-validate

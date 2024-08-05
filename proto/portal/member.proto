@@ -16,6 +16,11 @@ message MemberRegisterReq {
   string auth_code = 4 [(validate.rules).string.min_len = 1]; //
 }
 
+message MemberRegisterRsp {
+  uint32 id = 1; // 用户ID
+  string username = 2; // 用户名
+}
+
 // 会员登录
 message MemberLoginReq {
   string username = 1 [(validate.rules).string.min_len = 1];  // 用户名
@@ -23,8 +28,10 @@ message MemberLoginReq {
 }
 
 message MemberLoginRsp {
-  string token = 1; // 凭证
-  string token_head = 2; // 凭证请求头
+  uint32 code = 1;      // 状态码
+  string message = 2;   // 提示信息
+  string token = 3; // 凭证
+  string token_head = 4; // 凭证请求头
 }
 
 // 获取会员信息
@@ -92,7 +99,7 @@ message MemberInfoRsp {
 // 会员登录注册管理
 service PortalMemberApi {
   // 会员注册
-  rpc MemberRegister(MemberRegisterReq) returns (EmptyRsp) {
+  rpc MemberRegister(MemberRegisterReq) returns (MemberRegisterRsp) {
     option (google.api.http) = {
       post: "/sso/register"
       body: "*"

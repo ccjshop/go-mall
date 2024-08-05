@@ -35,11 +35,7 @@ func request_OmsAdminApi_CreateOrderReturnReason_0(ctx context.Context, marshale
 	var protoReq AddOrUpdateOrderReturnReasonParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -52,11 +48,7 @@ func local_request_OmsAdminApi_CreateOrderReturnReason_0(ctx context.Context, ma
 	var protoReq AddOrUpdateOrderReturnReasonParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -69,11 +61,7 @@ func request_OmsAdminApi_UpdateOrderReturnReason_0(ctx context.Context, marshale
 	var protoReq AddOrUpdateOrderReturnReasonParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -103,11 +91,7 @@ func local_request_OmsAdminApi_UpdateOrderReturnReason_0(ctx context.Context, ma
 	var protoReq AddOrUpdateOrderReturnReasonParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -505,11 +489,7 @@ func request_OmsAdminApi_CreateCompanyAddress_0(ctx context.Context, marshaler r
 	var protoReq AddOrUpdateCompanyAddressParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -522,11 +502,7 @@ func local_request_OmsAdminApi_CreateCompanyAddress_0(ctx context.Context, marsh
 	var protoReq AddOrUpdateCompanyAddressParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -539,11 +515,7 @@ func request_OmsAdminApi_UpdateCompanyAddress_0(ctx context.Context, marshaler r
 	var protoReq AddOrUpdateCompanyAddressParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -573,11 +545,7 @@ func local_request_OmsAdminApi_UpdateCompanyAddress_0(ctx context.Context, marsh
 	var protoReq AddOrUpdateCompanyAddressParam
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -747,6 +715,7 @@ func local_request_OmsAdminApi_DeleteCompanyAddress_0(ctx context.Context, marsh
 // UnaryRPC     :call OmsAdminApiServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterOmsAdminApiHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterOmsAdminApiHandlerServer(ctx context.Context, mux *runtime.ServeMux, server OmsAdminApiServer) error {
 
 	mux.Handle("POST", pattern_OmsAdminApi_CreateOrderReturnReason_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1130,21 +1099,21 @@ func RegisterOmsAdminApiHandlerServer(ctx context.Context, mux *runtime.ServeMux
 // RegisterOmsAdminApiHandlerFromEndpoint is same as RegisterOmsAdminApiHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterOmsAdminApiHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.NewClient(endpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
@@ -1162,7 +1131,7 @@ func RegisterOmsAdminApiHandler(ctx context.Context, mux *runtime.ServeMux, conn
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "OmsAdminApiClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "OmsAdminApiClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "OmsAdminApiClient" to call the correct interceptors.
+// "OmsAdminApiClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterOmsAdminApiHandlerClient(ctx context.Context, mux *runtime.ServeMux, client OmsAdminApiClient) error {
 
 	mux.Handle("POST", pattern_OmsAdminApi_CreateOrderReturnReason_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

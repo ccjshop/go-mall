@@ -8,9 +8,8 @@ import (
 )
 
 // MemberRegister 会员注册
-func (s PortalApiImpl) MemberRegister(ctx context.Context, req *pb.MemberRegisterReq) (*pb.EmptyRsp, error) {
-	//TODO implement me
-	panic("implement me")
+func (s PortalApiImpl) MemberRegister(ctx context.Context, req *pb.MemberRegisterReq) (*pb.MemberRegisterRsp, error) {
+	return s.memberUseCase.MemberRegister(ctx, req)
 }
 
 // MemberLogin 会员登录

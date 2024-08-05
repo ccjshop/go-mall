@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/ccjshop/go-mall/common/entity"
 
 	"github.com/ccjshop/go-mall/application/portal/config"
 	"github.com/ccjshop/go-mall/application/portal/internal/usecase/assembler"
@@ -31,9 +32,41 @@ func NewMember(cfg *config.Config, passwordEncoder crypto.PasswordEncoder, jwtTo
 }
 
 // MemberRegister 会员注册
-func (s MemberUseCase) MemberRegister(ctx context.Context, req *pb.MemberRegisterReq) (*pb.EmptyRsp, error) {
-	//TODO implement me
-	panic("implement me")
+func (s MemberUseCase) MemberRegister(ctx context.Context, req *pb.MemberRegisterReq) (*pb.MemberRegisterRsp, error) {
+	if req.GetAuthCode() != "6" {
+		return nil, retcode.NewError(retcode.MemberRegisterAuthCodeError)
+	}
+
+	pwd, _ := s.passwordEncoder.Encode(req.GetPassword())
+	m := &entity.Member{
+		ID:                    0,
+		Username:              req.GetUsername(),
+		Password:              pwd,
+		Nickname:              req.GetUsername(),
+		Icon:                  "",
+		Gender:                0,
+		Birthday:              0,
+		PersonalizedSignature: "",
+		Phone:                 req.GetTelephone(),
+		City:                  "",
+		Job:                   "",
+		MemberLevelID:         0,
+		SourceType:            0,
+		Integration:           0,
+		Growth:                0,
+		LuckeyCount:           0,
+		HistoryIntegration:    0,
+		Status:                0,
+		CreateTime:            0,
+		BaseTime:              entity.BaseTime{},
+	}
+
+	err := s.memberRepo.Create(ctx, m)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.MemberRegisterRsp{}, nil
 }
 
 // MemberLogin 会员登录
@@ -58,6 +91,7 @@ func (s MemberUseCase) MemberLogin(ctx context.Context, req *pb.MemberLoginReq) 
 		Token:     token,
 		TokenHead: s.cfg.Jwt.TokenHead,
 	}
+	res.Code, res.Message = retcode.GetRetCodeMsg(retcode.RetSuccess)
 	return res, nil
 }
 
