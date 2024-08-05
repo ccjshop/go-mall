@@ -3,7 +3,6 @@ package db
 
 import (
 	"fmt"
-	"github.com/ccjshop/go-mall/common/entity"
 	"log"
 	"os"
 	"time"
@@ -47,57 +46,6 @@ func GetConn(username string, password string, host string, port uint32, timeout
 	})
 	if err != nil {
 		return nil, err
-	}
-
-	// 自动迁移（Auto Migrate）
-	err = conn.AutoMigrate(
-		&entity.JsonDynamicConfig{},
-		&entity.PrefrenceArea{},
-		&entity.PrefrenceAreaProductRelation{},
-		&entity.Subject{},
-		&entity.SubjectProductRelation{},
-		&entity.CartItem{},
-		&entity.CompanyAddress{},
-		&entity.Order{},
-		&entity.OrderItem{},
-		&entity.OrderOperateHistory{},
-		&entity.OrderReturnApply{},
-		&entity.OrderReturnReason{},
-		&entity.Album{},
-		&entity.AlbumPic{},
-		&entity.Brand{},
-		&entity.Comment{},
-		&entity.CommentReplay{},
-		&entity.FeightTemplate{},
-		&entity.MemberPrice{},
-		&entity.Product{},
-		&entity.ProductAttribute{},
-		&entity.ProductAttributeCategory{},
-		&entity.ProductAttributeValue{},
-		&entity.ProductCategory{},
-		&entity.ProductCategoryAttributeRelation{},
-		&entity.ProductFullReduction{},
-		&entity.ProductLadder{},
-		&entity.ProductOperateLog{},
-		&entity.ProductVertifyRecord{},
-		&entity.SkuStock{},
-		&entity.Coupon{},
-		&entity.CouponHistory{},
-		&entity.CouponProductCategoryRelation{},
-		&entity.CouponProductRelation{},
-		&entity.FlashPromotion{},
-		&entity.FlashPromotionLog{},
-		&entity.FlashPromotionProductRelation{},
-		&entity.FlashPromotionSession{},
-		&entity.HomeAdvertise{},
-		&entity.HomeNewProduct{},
-		&entity.HomeRecommendProduct{},
-		&entity.HomeRecommendSubject{},
-		&entity.Member{},
-		&entity.MemberReceiveAddress{},
-	)
-	if err != nil {
-		log.Fatalf("自动迁移失败: %v", err)
 	}
 
 	return conn, nil
